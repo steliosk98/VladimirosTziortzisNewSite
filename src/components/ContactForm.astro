@@ -1,0 +1,91 @@
+---
+import SectionHeading from './SectionHeading.astro';
+
+const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID;
+const action = formspreeId && formspreeId !== 'your_formspree_id_here'
+  ? `https://formspree.io/f/${formspreeId}`
+  : '';
+---
+<section id="contact" class="py-24 md:py-32 relative overflow-hidden">
+  <div class="absolute inset-0 -z-10 bg-bg-elev/30"></div>
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent"></div>
+
+  <div class="container-site">
+    <div class="max-w-3xl mx-auto">
+      <SectionHeading
+        kicker="Get In Touch"
+        title="Contact Us"
+        subtitle="For all driver management, sponsorships and media inquiries regarding Vladimiros, just fill in the form below."
+        align="center"
+      />
+
+      <form
+        id="contact-form"
+        action={action}
+        method="POST"
+        class="mt-16 flex flex-col gap-5 reveal"
+      >
+        <div class="grid md:grid-cols-2 gap-4 md:gap-5">
+          <label class="flex flex-col gap-2">
+            <span class="font-sans text-xs uppercase tracking-[0.2em] text-muted">Name</span>
+            <input type="text" name="name" required class="input-field" placeholder="Your name" />
+          </label>
+          <label class="flex flex-col gap-2">
+            <span class="font-sans text-xs uppercase tracking-[0.2em] text-muted">Email</span>
+            <input type="email" name="email" required class="input-field" placeholder="you@example.com" />
+          </label>
+        </div>
+        <label class="flex flex-col gap-2">
+          <span class="font-sans text-xs uppercase tracking-[0.2em] text-muted">Phone</span>
+          <input type="tel" name="phone" required class="input-field" placeholder="+357 …" />
+        </label>
+        <label class="flex flex-col gap-2">
+          <span class="font-sans text-xs uppercase tracking-[0.2em] text-muted">Message</span>
+          <textarea name="message" required rows="6" class="input-field resize-none" placeholder="Tell us more…"></textarea>
+        </label>
+
+        <div id="form-success" class="hidden border border-accent bg-accent/10 text-fg font-sans text-sm p-4">
+          Thanks for reaching out — we'll get back to you shortly.
+        </div>
+        <div id="form-error" class="hidden border border-rule bg-bg-elev text-muted font-sans text-sm p-4">
+          Something went wrong. Please try again, or email <a href="mailto:tziortzisracing@gmail.com" class="text-accent">tziortzisracing@gmail.com</a>.
+        </div>
+
+        <button type="submit" class="btn-primary w-full md:w-auto md:self-start">Send Message</button>
+      </form>
+
+      {!action && (
+        <p class="mt-6 text-center font-sans text-xs text-muted">
+          Form endpoint not configured. Set <code class="text-accent">PUBLIC_FORMSPREE_ID</code> in <code class="text-accent">.env</code>.
+        </p>
+      )}
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const success = document.getElementById('form-success');
+  const error = document.getElementById('form-error');
+  form?.addEventListener('submit', async (e) => {
+    if (!form.action) return;
+    e.preventDefault();
+    success?.classList.add('hidden');
+    error?.classList.add('hidden');
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+      });
+      if (res.ok) {
+        form.reset();
+        success?.classList.remove('hidden');
+      } else {
+        error?.classList.remove('hidden');
+      }
+    } catch {
+      error?.classList.remove('hidden');
+    }
+  });
+</script>

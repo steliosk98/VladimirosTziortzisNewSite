@@ -1,0 +1,49 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { Image } from 'astro:assets';
+import portrait from '../../public/images/img-4425-1-1065x1386.png';
+import { bio } from '../data/site';
+---
+<section id="about" class="relative py-24 md:py-36">
+  <div class="container-site">
+    <SectionHeading kicker="The Driver" title="About" align="center" />
+
+    <div class="mt-16 md:mt-24 grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-10 lg:gap-16 items-start">
+      <div class="reveal relative">
+        <div class="absolute -top-4 -left-4 w-24 h-24 border-t-2 border-l-2 border-accent z-0"></div>
+        <div class="absolute -bottom-4 -right-4 w-24 h-24 border-b-2 border-r-2 border-accent z-0"></div>
+        <Image
+          src={portrait}
+          alt="Vladimiros Tziortzis portrait"
+          widths={[400, 600, 900]}
+          sizes="(min-width: 1024px) 40vw, 90vw"
+          class="relative z-10 w-full grayscale hover:grayscale-0 transition-[filter] duration-700"
+          loading="eager"
+        />
+      </div>
+
+      <div class="reveal flex flex-col gap-5">
+        <div class="flex items-center gap-6 pb-4 border-b border-rule">
+          <div class="flex items-baseline gap-2">
+            <span class="font-display text-4xl text-accent">1997</span>
+            <span class="font-sans text-xs text-muted uppercase tracking-widest">Born</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-display text-4xl text-accent">7x</span>
+            <span class="font-sans text-xs text-muted uppercase tracking-widest">Karting Champion</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-display text-4xl text-accent">#64</span>
+            <span class="font-sans text-xs text-muted uppercase tracking-widest">Speedhouse</span>
+          </div>
+        </div>
+
+        {bio.map((para, i) => (
+          <p class={`font-sans text-fg/85 leading-relaxed ${i === 0 ? 'text-lg md:text-xl font-semibold text-fg' : 'text-base'}`}>
+            {para}
+          </p>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

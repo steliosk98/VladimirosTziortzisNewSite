@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Countdown from '../components/Countdown.astro';
+import About from '../components/About.astro';
+import Gallery from '../components/Gallery.astro';
+import Stats from '../components/Stats.astro';
+import YouTubeEmbed from '../components/YouTubeEmbed.astro';
+import ElfsightEmbed from '../components/ElfsightEmbed.astro';
+import SponsorTier from '../components/SponsorTier.astro';
+import ContactForm from '../components/ContactForm.astro';
+import FollowMe from '../components/FollowMe.astro';
+import {
+  platinum,
+  sponsors,
+  broadcast,
+  supporters,
+  socialMediaSupporter,
+} from '../data/sponsors';
+---
+<BaseLayout>
+  <Hero />
+  <Countdown />
+  <About />
+  <Gallery />
+  <Stats />
+  <YouTubeEmbed />
+  <ElfsightEmbed />
+
+  <section id="partners" class="py-24 md:py-32 border-t border-rule bg-bg-elev/20">
+    <div class="container-site flex flex-col gap-24 md:gap-32">
+      <SponsorTier kicker="Headline Partner" title="Platinum Sponsor" items={platinum} size="xl" />
+      <SponsorTier kicker="Official Partners" title="Sponsors" items={sponsors} size="lg" />
+      <SponsorTier kicker="On Air" title="Broadcast Sponsor" items={broadcast} size="xl" />
+      <SponsorTier kicker="Team Behind The Team" title="Supporters" items={supporters} size="md" />
+      <SponsorTier kicker="Digital" title="Social Media Supporter" items={socialMediaSupporter} size="lg" />
+    </div>
+  </section>
+
+  <ContactForm />
+  <FollowMe />
+</BaseLayout>

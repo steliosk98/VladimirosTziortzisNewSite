@@ -1,0 +1,57 @@
+---
+import type { Sponsor } from '../data/sponsors';
+interface Props {
+  kicker?: string;
+  title: string;
+  items: Sponsor[];
+  /** Controls logo tile size. */
+  size?: 'xl' | 'lg' | 'md';
+}
+const { kicker, title, items, size = 'md' } = Astro.props;
+
+const tileClass = size === 'xl'
+  ? 'max-w-md aspect-square'
+  : size === 'lg'
+    ? 'max-w-sm aspect-square'
+    : 'aspect-[4/3]';
+
+const gridClass = items.length === 1
+  ? 'flex justify-center'
+  : items.length <= 2
+    ? 'grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 max-w-3xl mx-auto'
+    : items.length <= 4
+      ? 'grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5'
+      : 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5';
+---
+<div class="flex flex-col gap-10 md:gap-12">
+  <div class="flex flex-col items-center gap-4 reveal">
+    {kicker && <span class="kicker">{kicker}</span>}
+    <h3 class="font-display text-3xl md:text-4xl text-center">{title}</h3>
+    <span class="section-rule"></span>
+  </div>
+
+  <div class={gridClass}>
+    {items.map(item => (
+      <a
+        href={item.url}
+        target="_blank"
+        rel="noopener"
+        class={`reveal card-flat group relative overflow-hidden w-full ${tileClass}`}
+        aria-label={item.name}
+      >
+        <div class="absolute inset-0 flex items-center justify-center p-6">
+          <img
+            src={item.logo}
+            alt={item.name}
+            loading="lazy"
+            class="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition duration-500"
+          />
+        </div>
+        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-bg to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+          <p class="font-display text-lg md:text-xl text-fg text-center tracking-wide">{item.name}</p>
+          {item.subtitle && <p class="font-sans text-[10px] md:text-xs text-muted uppercase tracking-[0.25em] text-center mt-1">{item.subtitle}</p>}
+        </div>
+      </a>
+    ))}
+  </div>
+</div>

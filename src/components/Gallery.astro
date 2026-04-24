@@ -1,0 +1,82 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { gallery } from '../data/site';
+---
+<section id="gallery" class="py-24 md:py-32 bg-bg-elev/30">
+  <div class="container-site">
+    <SectionHeading kicker="On Track" title="Gallery" subtitle="A glimpse from paddock to podium." align="center" />
+
+    <div class="mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
+      {gallery.map((src, idx) => (
+        <button
+          type="button"
+          class={`group relative overflow-hidden bg-bg ${idx === 0 || idx === 4 ? 'col-span-2 row-span-2' : ''}`}
+          data-lightbox-open={idx}
+          aria-label={`Open image ${idx + 1}`}
+        >
+          <img
+            src={src}
+            alt=""
+            loading="lazy"
+            class="w-full h-full object-cover aspect-[4/3] group-hover:scale-105 transition-transform duration-700"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-bg/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="absolute bottom-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity">
+            <span class="font-sans text-xs text-accent tracking-[0.2em] uppercase">View</span>
+          </div>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <dialog id="gallery-lightbox" class="fixed inset-0 w-screen h-screen max-w-none max-h-none bg-bg/95 backdrop-blur-sm p-0 m-0 open:flex hidden items-center justify-center z-[100]">
+    <button type="button" id="lightbox-close" class="absolute top-6 right-6 text-fg hover:text-accent transition-colors z-10" aria-label="Close">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <button type="button" id="lightbox-prev" class="absolute left-6 md:left-10 text-fg hover:text-accent transition-colors z-10" aria-label="Previous">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button type="button" id="lightbox-next" class="absolute right-6 md:right-10 text-fg hover:text-accent transition-colors z-10" aria-label="Next">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+    <img id="lightbox-img" alt="" class="max-w-[92vw] max-h-[88vh] object-contain" />
+    <div id="lightbox-counter" class="absolute bottom-6 left-1/2 -translate-x-1/2 font-sans text-xs text-muted uppercase tracking-[0.3em]"></div>
+  </dialog>
+</section>
+
+<script define:vars={{ images: gallery }}>
+  const dialog = document.getElementById('gallery-lightbox');
+  const img = document.getElementById('lightbox-img');
+  const counter = document.getElementById('lightbox-counter');
+  const closeBtn = document.getElementById('lightbox-close');
+  const prevBtn = document.getElementById('lightbox-prev');
+  const nextBtn = document.getElementById('lightbox-next');
+  let current = 0;
+
+  const render = () => {
+    if (img) img.setAttribute('src', images[current]);
+    if (counter) counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(images.length).padStart(2, '0')}`;
+  };
+  const open = (i) => {
+    current = i;
+    render();
+    dialog?.showModal();
+  };
+  const close = () => dialog?.close();
+  const prev = () => { current = (current - 1 + images.length) % images.length; render(); };
+  const next = () => { current = (current + 1) % images.length; render(); };
+
+  document.querySelectorAll('[data-lightbox-open]').forEach(btn => {
+    btn.addEventListener('click', () => open(Number(btn.dataset.lightboxOpen)));
+  });
+  closeBtn?.addEventListener('click', close);
+  prevBtn?.addEventListener('click', prev);
+  nextBtn?.addEventListener('click', next);
+  dialog?.addEventListener('click', (e) => { if (e.target === dialog) close(); });
+  document.addEventListener('keydown', (e) => {
+    if (!dialog?.open) return;
+    if (e.key === 'ArrowLeft') prev();
+    else if (e.key === 'ArrowRight') next();
+    else if (e.key === 'Escape') close();
+  });
+</script>

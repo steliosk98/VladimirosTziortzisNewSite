@@ -1,0 +1,27 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { siteMeta } from '../data/site';
+
+const src = `https://www.youtube.com/embed/?listType=user_uploads&list=${siteMeta.youtubeChannelId}`;
+---
+<section class="py-24 md:py-32 border-t border-rule">
+  <div class="container-site flex flex-col gap-12 items-center">
+    <SectionHeading kicker="Watch" title="Latest From The Channel" align="center" />
+
+    <div class="reveal w-full max-w-5xl aspect-video border border-rule bg-bg-elev overflow-hidden">
+      <iframe
+        src={src}
+        title="Vladimiros Tziortzis — YouTube"
+        frameborder="0"
+        loading="lazy"
+        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        class="w-full h-full"
+      ></iframe>
+    </div>
+
+    <a href={`https://www.youtube.com/channel/${siteMeta.youtubeChannelId}`} target="_blank" rel="noopener" class="btn-outline">
+      Visit Channel
+    </a>
+  </div>
+</section>

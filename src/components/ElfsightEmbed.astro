@@ -1,0 +1,15 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { siteMeta } from '../data/site';
+---
+<section class="py-24 md:py-32">
+  <div class="container-site flex flex-col gap-12 items-center">
+    <SectionHeading kicker="Social Feed" title="Live From The Paddock" align="center" />
+
+    <div class="reveal w-full max-w-6xl border border-rule bg-bg-elev p-4 md:p-6">
+      <div class={`elfsight-app-${siteMeta.elfsightAppId}`}></div>
+    </div>
+  </div>
+</section>
+
+<script is:inline src="https://apps.elfsight.com/p/platform.js" defer></script>
