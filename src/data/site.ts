@@ -1,3 +1,5 @@
+const currentYear = new Date().getFullYear();
+
 export const nav = [
   { label: 'About', href: '/#about' },
   { label: 'News', href: '/#media' },
@@ -54,7 +56,7 @@ export const siteMeta = {
   title: 'Vladimiros Tziortzis — Professional Racing Driver',
   description:
     'Vladimiros Tziortzis is the only single-seater driver in Cyprus — a Formula 3 and EuroNASCAR professional. Follow his career, races, sponsors and media.',
-  copyrightYears: '2019-2025',
+  copyrightYears: `2019-${currentYear}`,
   designCredit: { name: '357.digital', url: 'https://357.digital' },
   contactEmail: 'tziortzisracing@gmail.com',
   vimeoVideoId: '682535491',
