@@ -3,7 +3,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { articles } from '../data/articles';
 import { withBase } from '../lib/url';
 
-const publications = Array.from(new Set(articles.map(a => a.publication))).sort();
+const publisherAliases: Record<string, string> = {
+  'ΑΝΤ1': 'ANT1',
+  'AutoΚίνητο:': 'AutoΚίνητο',
+  'CyprusMail': 'Cyprus Mail',
+  'SigmaLive': 'Sigma Live',
+  'SportTime / SigmaLive': 'Sigma Live',
+};
+const normalizePublisher = (publisher: string) => publisherAliases[publisher] ?? publisher;
+const publications = Array.from(new Set(articles.map(a => normalizePublisher(a.publication)))).sort();
 const articlesPerPage = 12;
 const totalPages = Math.ceil(articles.length / articlesPerPage);
 ---
@@ -62,6 +70,29 @@ const totalPages = Math.ceil(articles.length / articlesPerPage);
         </p>
       </div>
 
+      <div class="mb-8 grid gap-4 md:grid-cols-[1fr_minmax(14rem,18rem)]">
+        <label class="flex flex-col gap-2">
+          <span class="font-sans text-xs text-fg/70 uppercase tracking-[0.22em]">Search articles</span>
+          <input
+            id="articles-search"
+            type="search"
+            class="input-field font-article"
+            placeholder="Search by title or publisher"
+            autocomplete="off"
+          />
+        </label>
+
+        <label class="flex flex-col gap-2">
+          <span class="font-sans text-xs text-fg/70 uppercase tracking-[0.22em]">Publisher</span>
+          <select id="articles-publisher" class="input-field font-article">
+            <option value="">All publishers</option>
+            {publications.map(publication => (
+              <option value={publication}>{publication}</option>
+            ))}
+          </select>
+        </label>
+      </div>
+
       <div id="articles-list" class="article-list border-y border-rule">
         {articles.map((article, i) => (
           <a
@@ -70,25 +101,26 @@ const totalPages = Math.ceil(articles.length / articlesPerPage);
             rel="noopener"
             class="article-row reveal group grid gap-4 md:grid-cols-[5rem_minmax(10rem,14rem)_1fr_auto] md:items-center py-5 md:py-6 border-b border-rule last:border-b-0"
             data-article-row
-            data-page={Math.floor(i / articlesPerPage) + 1}
+            data-publication={normalizePublisher(article.publication)}
+            data-search={`${normalizePublisher(article.publication)} ${article.publication} ${article.title}`.toLowerCase()}
             style={`transition-delay:${(i % articlesPerPage) * 0.035}s`}
           >
             <span class="font-display text-3xl md:text-4xl text-accent/70 group-hover:text-accent transition-colors">
               {String(i + 1).padStart(2, '0')}
             </span>
 
-            <span class="flex items-center h-12 max-w-48">
+            <span class="flex items-center justify-center h-12 max-w-48 w-full bg-white px-4 py-2">
               <img
                 src={withBase(article.logo)}
                 alt={article.publication}
                 loading="lazy"
-                class="max-h-10 w-auto object-contain grayscale opacity-75 group-hover:opacity-100 group-hover:grayscale-0 transition duration-300"
+                class="max-h-8 w-auto object-contain opacity-90 group-hover:opacity-100 transition duration-300"
               />
             </span>
 
             <span class="flex flex-col gap-2">
               <span class="font-sans text-[11px] font-bold text-accent uppercase tracking-[0.24em]">
-                {article.publication}
+                {normalizePublisher(article.publication)}
               </span>
               <span class="font-article text-xl md:text-2xl font-bold text-fg leading-snug group-hover:text-accent transition-colors">
                 {article.title}
@@ -105,23 +137,16 @@ const totalPages = Math.ceil(articles.length / articlesPerPage);
         ))}
       </div>
 
+      <p id="articles-empty" class="hidden border-b border-rule py-10 text-center font-article text-fg/70">
+        No articles match your search.
+      </p>
+
       <nav class="mt-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4" aria-label="Articles pagination">
         <button type="button" id="articles-prev" class="btn-outline disabled:pointer-events-none disabled:opacity-35">
           Previous
         </button>
 
-        <div id="articles-pagination" class="flex flex-wrap justify-center gap-2">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              type="button"
-              class="article-page-btn w-11 h-11 border border-rule font-sans text-xs font-bold uppercase tracking-widest text-fg/80 hover:border-accent hover:text-accent transition-colors"
-              data-page-button={i + 1}
-              aria-label={`Go to articles page ${i + 1}`}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
+        <div id="articles-pagination" class="flex flex-wrap justify-center gap-2"></div>
 
         <button type="button" id="articles-next" class="btn-outline disabled:pointer-events-none disabled:opacity-35">
           Next
@@ -131,26 +156,51 @@ const totalPages = Math.ceil(articles.length / articlesPerPage);
   </section>
 </BaseLayout>
 
-<script define:vars={{ totalPages }}>
+<script define:vars={{ articlesPerPage }}>
   const rows = Array.from(document.querySelectorAll('[data-article-row]'));
-  const pageButtons = Array.from(document.querySelectorAll('[data-page-button]'));
+  const pagination = document.getElementById('articles-pagination');
   const prev = document.getElementById('articles-prev');
   const next = document.getElementById('articles-next');
   const status = document.getElementById('articles-page-status');
+  const search = document.getElementById('articles-search');
+  const publisher = document.getElementById('articles-publisher');
+  const empty = document.getElementById('articles-empty');
   let currentPage = 1;
+  let activeRows = rows;
+
+  const renderPagination = (pageCount) => {
+    if (!pagination) return;
+    pagination.innerHTML = '';
+
+    for (let i = 1; i <= pageCount; i += 1) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'article-page-btn w-11 h-11 border border-rule font-sans text-xs font-bold uppercase tracking-widest text-fg/80 hover:border-accent hover:text-accent transition-colors';
+      button.dataset.pageButton = String(i);
+      button.setAttribute('aria-label', `Go to articles page ${i}`);
+      button.textContent = String(i);
+      button.addEventListener('click', () => showPage(i));
+      pagination.append(button);
+    }
+  };
 
   const showPage = (page) => {
-    currentPage = Math.min(totalPages, Math.max(1, page));
+    const pageCount = Math.max(1, Math.ceil(activeRows.length / articlesPerPage));
+    currentPage = Math.min(pageCount, Math.max(1, page));
+    const start = (currentPage - 1) * articlesPerPage;
+    const end = start + articlesPerPage;
 
     rows.forEach((row) => {
-      const isActive = Number(row.dataset.page) === currentPage;
-      row.classList.toggle('hidden', !isActive);
-      if (isActive) {
-        row.classList.remove('is-visible');
-        requestAnimationFrame(() => row.classList.add('is-visible'));
-      }
+      row.classList.add('hidden');
+      row.classList.remove('is-visible');
     });
 
+    activeRows.slice(start, end).forEach((row) => {
+      row.classList.remove('hidden');
+      requestAnimationFrame(() => row.classList.add('is-visible'));
+    });
+
+    const pageButtons = Array.from(document.querySelectorAll('[data-page-button]'));
     pageButtons.forEach((button) => {
       const isActive = Number(button.dataset.pageButton) === currentPage;
       button.classList.toggle('border-accent', isActive);
@@ -159,15 +209,35 @@ const totalPages = Math.ceil(articles.length / articlesPerPage);
     });
 
     if (prev) prev.toggleAttribute('disabled', currentPage === 1);
-    if (next) next.toggleAttribute('disabled', currentPage === totalPages);
-    if (status) status.textContent = `Page ${currentPage} of ${totalPages}`;
+    if (next) next.toggleAttribute('disabled', currentPage === pageCount);
+    if (status) {
+      status.textContent = activeRows.length
+        ? `Page ${currentPage} of ${pageCount} · ${activeRows.length} articles`
+        : 'No articles found';
+    }
+    if (empty) empty.classList.toggle('hidden', activeRows.length > 0);
+    pagination?.classList.toggle('hidden', pageCount <= 1);
   };
 
-  pageButtons.forEach((button) => {
-    button.addEventListener('click', () => showPage(Number(button.dataset.pageButton)));
-  });
+  const applyFilters = () => {
+    const query = search?.value.trim().toLowerCase() ?? '';
+    const selectedPublisher = publisher?.value ?? '';
+
+    activeRows = rows.filter((row) => {
+      const matchesSearch = !query || row.dataset.search?.includes(query);
+      const matchesPublisher = !selectedPublisher || row.dataset.publication === selectedPublisher;
+      return matchesSearch && matchesPublisher;
+    });
+
+    const pageCount = Math.max(1, Math.ceil(activeRows.length / articlesPerPage));
+    renderPagination(pageCount);
+    showPage(1);
+  };
+
+  search?.addEventListener('input', applyFilters);
+  publisher?.addEventListener('change', applyFilters);
   prev?.addEventListener('click', () => showPage(currentPage - 1));
   next?.addEventListener('click', () => showPage(currentPage + 1));
 
-  showPage(1);
+  applyFilters();
 </script>
