@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter+Tight:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter+Tight:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -114,6 +114,10 @@
 
   .input-field {
     @apply w-full bg-bg-elev border border-rule px-4 py-3 text-fg placeholder-muted font-sans text-sm focus:outline-none focus:border-accent transition-colors;
+  }
+
+  .font-article {
+    font-family: 'Noto Sans', 'Inter Tight', system-ui, sans-serif;
   }
 }
 
