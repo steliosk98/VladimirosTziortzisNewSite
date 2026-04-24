@@ -2,7 +2,10 @@
 import SectionHeading from './SectionHeading.astro';
 import { siteMeta } from '../data/site';
 
-const src = `https://www.youtube.com/embed/?listType=user_uploads&list=${siteMeta.youtubeChannelId}`;
+const uploadsPlaylistId = siteMeta.youtubeChannelId.startsWith('UC')
+  ? `UU${siteMeta.youtubeChannelId.slice(2)}`
+  : siteMeta.youtubeChannelId;
+const src = `https://www.youtube-nocookie.com/embed/videoseries?list=${uploadsPlaylistId}`;
 ---
 <section class="py-24 md:py-32 border-t border-rule">
   <div class="container-site flex flex-col gap-12 items-center">
