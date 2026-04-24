@@ -30,6 +30,26 @@
     background: var(--bg);
     color: var(--fg);
     overflow-x: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle, rgba(225, 6, 0, 0.28) 0 1px, transparent 1.5px),
+      radial-gradient(circle, rgba(255, 45, 32, 0.16) 0 1px, transparent 1.4px);
+    background-position:
+      var(--texture-x, 0px) var(--texture-y, 0px),
+      calc(var(--texture-x, 0px) * -0.6) calc(var(--texture-y, 0px) * -0.8);
+    background-size: 38px 38px, 86px 86px;
+    mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+    opacity: 0.42;
+    transform: translateZ(0);
+    will-change: background-position;
   }
 
   ::selection {
@@ -263,5 +283,8 @@
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
+  }
+  body::before {
+    background-position: 0 0, 0 0 !important;
   }
 }

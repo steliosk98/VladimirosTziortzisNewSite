@@ -75,6 +75,10 @@ const pageDesc = description ?? siteMeta.description;
       ticking = false;
       if (reduceMotion.matches || !parallaxItems.length) return;
 
+      const scrollY = window.scrollY;
+      document.body.style.setProperty('--texture-x', `${(scrollY * 0.08).toFixed(2)}px`);
+      document.body.style.setProperty('--texture-y', `${(scrollY * -0.16).toFixed(2)}px`);
+
       const viewportCenter = window.innerHeight / 2;
       for (const el of parallaxItems) {
         const rect = el.getBoundingClientRect();
