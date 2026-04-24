@@ -10,41 +10,39 @@ const publications = Array.from(new Set(articles.map(a => a.publication))).sort(
   title="Articles — Vladimiros Tziortzis"
   description="Interviews and articles featuring Vladimiros Tziortzis — from Cypriot racing press to international motorsport media."
 >
-  <section class="pt-[calc(var(--nav-h)+4rem)] pb-20 md:pt-[calc(var(--nav-h)+7rem)] md:pb-28 relative border-b border-rule overflow-hidden">
-    <div class="absolute inset-0 -z-10">
+  <section class="pt-[calc(var(--nav-h)+6rem)] pb-20 md:pt-[calc(var(--nav-h)+9rem)] md:pb-28 relative isolate border-b border-rule overflow-hidden">
+    <div class="absolute inset-0 z-0 pointer-events-none">
       <img
-        src={withBase('/images/background-1-2000x569.jpg')}
+        src={withBase('/images/spy-4222-1-2000x1333.jpg')}
         alt=""
-        class="parallax-media w-full h-full object-cover opacity-55 scale-[1.12]"
+        class="parallax-media w-full h-full object-cover object-[50%_0%] opacity-80 scale-[1.08]"
         data-parallax
-        data-parallax-speed="-0.1"
+        data-parallax-speed="-0.06"
       />
-      <div class="absolute inset-0 bg-gradient-to-b from-bg/70 via-bg/40 to-bg"></div>
-      <div class="absolute inset-0 bg-gradient-to-r from-bg via-bg/45 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-bg/85 via-bg/65 to-bg"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-bg via-bg/85 to-bg/45"></div>
+      <div class="absolute inset-0 bg-bg/35"></div>
+      <div class="absolute inset-0 bg-accent/15 mix-blend-multiply"></div>
     </div>
 
-    <div class="container-site relative">
+    <div class="container-site relative z-10">
       <div class="flex flex-col gap-6 max-w-3xl">
         <span class="kicker">Media Archive</span>
         <h1 class="font-display text-display-lg text-fg leading-none">Articles</h1>
         <div class="flex items-center gap-4">
           <span class="h-px w-14 bg-accent"></span>
-          <p class="font-sans text-muted text-sm md:text-base uppercase tracking-[0.2em]">
+          <p class="font-sans text-fg/85 text-sm md:text-base uppercase tracking-[0.2em]">
             Interviews & articles featuring Vladimiros
           </p>
         </div>
         <div class="flex flex-wrap items-baseline gap-6 md:gap-10 pt-6 mt-4 border-t border-rule">
           <div class="flex items-baseline gap-3">
             <span class="font-display text-4xl md:text-5xl text-accent">{articles.length}</span>
-            <span class="font-sans text-xs text-muted uppercase tracking-[0.25em]">Articles</span>
+            <span class="font-sans text-xs text-fg/75 uppercase tracking-[0.25em]">Articles</span>
           </div>
           <div class="flex items-baseline gap-3">
             <span class="font-display text-4xl md:text-5xl text-accent">{publications.length}</span>
-            <span class="font-sans text-xs text-muted uppercase tracking-[0.25em]">Publications</span>
-          </div>
-          <div class="flex items-baseline gap-3">
-            <span class="font-display text-4xl md:text-5xl text-accent">EN / GR</span>
-            <span class="font-sans text-xs text-muted uppercase tracking-[0.25em]">Languages</span>
+            <span class="font-sans text-xs text-fg/75 uppercase tracking-[0.25em]">Publications</span>
           </div>
         </div>
       </div>
