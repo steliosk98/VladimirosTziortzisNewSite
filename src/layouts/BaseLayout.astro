@@ -66,6 +66,36 @@ const pageDesc = description ?? siteMeta.description;
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const parallaxItems = Array.from(document.querySelectorAll<HTMLElement>('[data-parallax]'));
+    let ticking = false;
+
+    const updateParallax = () => {
+      ticking = false;
+      if (reduceMotion.matches || !parallaxItems.length) return;
+
+      const viewportCenter = window.innerHeight / 2;
+      for (const el of parallaxItems) {
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom < -120 || rect.top > window.innerHeight + 120) continue;
+
+        const speed = Number(el.dataset.parallaxSpeed ?? 0.1);
+        const offset = (rect.top + rect.height / 2 - viewportCenter) * speed;
+        el.style.setProperty('--parallax-y', `${offset.toFixed(2)}px`);
+        el.style.transform = `translate3d(0, var(--parallax-y), 0) ${el.classList.contains('scale-[1.12]') ? 'scale(1.12)' : el.classList.contains('scale-[1.08]') ? 'scale(1.08)' : ''}`;
+      }
+    };
+
+    const requestParallax = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(updateParallax);
+    };
+
+    updateParallax();
+    window.addEventListener('scroll', requestParallax, { passive: true });
+    window.addEventListener('resize', requestParallax);
   </script>
 </body>
 </html>

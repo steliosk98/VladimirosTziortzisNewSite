@@ -4,7 +4,9 @@ import { withBase } from '../lib/url';
 <section class="relative isolate min-h-screen flex items-center overflow-hidden bg-grain">
   <div class="absolute inset-0 z-0">
     <video
-      class="absolute inset-0 w-full h-full object-cover"
+      class="parallax-media absolute inset-0 w-full h-full object-cover scale-[1.08]"
+      data-parallax
+      data-parallax-speed="-0.18"
       src={withBase('/videos/hero.mp4')}
       autoplay
       muted
@@ -49,5 +51,5 @@ import { withBase } from '../lib/url';
 
   <div class="absolute top-1/4 right-0 w-1 h-40 bg-accent hidden lg:block"></div>
   <div class="absolute bottom-1/4 right-8 w-1 h-20 bg-accent/50 hidden lg:block"></div>
+  <div class="motion-stripe absolute bottom-24 right-0 hidden lg:block"></div>
 </section>
-

@@ -7,7 +7,9 @@ import { withBase } from '../lib/url';
     src={withBase('/images/background-1-2000x569.jpg')}
     alt=""
     aria-hidden="true"
-    class="absolute inset-0 w-full h-full object-cover z-0"
+    class="parallax-media absolute inset-0 w-full h-full object-cover z-0 scale-[1.12]"
+    data-parallax
+    data-parallax-speed="-0.12"
   />
   <div class="absolute inset-0 z-0" style="background-color: rgba(10,10,10,0.55);"></div>
   <div class="absolute inset-0 z-0" style="background-image: linear-gradient(to bottom, rgba(10,10,10,0.4), rgba(10,10,10,0.1) 50%, rgba(10,10,10,0.9));"></div>
@@ -32,19 +34,19 @@ import { withBase } from '../lib/url';
         class="reveal grid grid-cols-4 gap-3 md:gap-6 w-full max-w-4xl"
         data-target={nextRace.target}
       >
-        <div class="card-flat p-5 md:p-8 flex flex-col items-center gap-2">
+        <div class="card-flat motion-card p-5 md:p-8 flex flex-col items-center gap-2">
           <span id="cd-days" class="font-display text-5xl md:text-7xl lg:text-8xl text-accent leading-none">00</span>
           <span class="font-sans text-[10px] md:text-xs text-muted uppercase tracking-[0.25em]">Days</span>
         </div>
-        <div class="card-flat p-5 md:p-8 flex flex-col items-center gap-2">
+        <div class="card-flat motion-card p-5 md:p-8 flex flex-col items-center gap-2">
           <span id="cd-hours" class="font-display text-5xl md:text-7xl lg:text-8xl text-accent leading-none">00</span>
           <span class="font-sans text-[10px] md:text-xs text-muted uppercase tracking-[0.25em]">Hours</span>
         </div>
-        <div class="card-flat p-5 md:p-8 flex flex-col items-center gap-2">
+        <div class="card-flat motion-card p-5 md:p-8 flex flex-col items-center gap-2">
           <span id="cd-mins" class="font-display text-5xl md:text-7xl lg:text-8xl text-accent leading-none">00</span>
           <span class="font-sans text-[10px] md:text-xs text-muted uppercase tracking-[0.25em]">Minutes</span>
         </div>
-        <div class="card-flat p-5 md:p-8 flex flex-col items-center gap-2">
+        <div class="card-flat motion-card p-5 md:p-8 flex flex-col items-center gap-2">
           <span id="cd-secs" class="font-display text-5xl md:text-7xl lg:text-8xl text-accent leading-none">00</span>
           <span class="font-sans text-[10px] md:text-xs text-muted uppercase tracking-[0.25em]">Seconds</span>
         </div>

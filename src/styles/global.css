@@ -67,10 +67,25 @@
 
   .btn-primary {
     @apply inline-flex items-center justify-center px-8 py-4 bg-accent text-fg font-sans font-bold uppercase tracking-widest text-sm transition-colors hover:bg-accent-hot;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 0 35%, rgba(255,255,255,0.28) 48%, transparent 62% 100%);
+    transform: translateX(-120%);
+    transition: transform 0.65s ease;
+  }
+  .btn-primary:hover::after {
+    transform: translateX(120%);
   }
 
   .btn-outline {
     @apply inline-flex items-center justify-center px-8 py-4 border border-rule text-fg font-sans font-bold uppercase tracking-widest text-sm transition-colors hover:border-accent hover:text-accent;
+    transform: translateZ(0);
   }
 
   .card-flat {
@@ -123,14 +138,34 @@
   100% { transform: translateX(50%); }
 }
 
+.parallax-media {
+  will-change: transform;
+  transition: transform 0.18s linear;
+}
+
+.motion-stripe {
+  width: 35vw;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.5;
+  transform: skewX(-18deg);
+  animation: stripe-pulse 3.8s ease-in-out infinite;
+}
+@keyframes stripe-pulse {
+  0%, 100% { transform: translateX(18%) skewX(-18deg) scaleX(0.65); opacity: 0.18; }
+  50% { transform: translateX(-8%) skewX(-18deg) scaleX(1); opacity: 0.55; }
+}
+
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  transform: translateY(28px) scale(0.985);
+  filter: blur(8px);
+  transition: opacity 0.75s cubic-bezier(.2,.7,.2,1), transform 0.75s cubic-bezier(.2,.7,.2,1), filter 0.75s ease-out;
 }
 .reveal.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+  filter: blur(0);
 }
 
 .section-rule {
@@ -150,4 +185,83 @@
   background: rgba(10, 10, 10, 0.9);
   backdrop-filter: blur(12px);
   border-bottom-color: var(--rule);
+}
+
+.animate-fade-up {
+  opacity: 0;
+  animation: fade-up 0.85s cubic-bezier(.2,.7,.2,1) forwards;
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.motion-card {
+  transform: translateZ(0);
+  transition: border-color 0.3s ease, transform 0.35s cubic-bezier(.2,.7,.2,1), box-shadow 0.35s ease, background-color 0.35s ease;
+}
+.motion-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+}
+
+.gallery-tile {
+  isolation: isolate;
+  transform: translateZ(0);
+  transition-property: opacity, transform, filter, border-color;
+}
+.gallery-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(120deg, transparent 0 35%, rgba(225,6,0,0.35) 48%, transparent 64% 100%);
+  opacity: 0;
+  transform: translateX(-120%);
+  transition: opacity 0.35s ease, transform 0.7s ease;
+  pointer-events: none;
+}
+.gallery-tile img {
+  transform: scale(1.02);
+}
+.gallery-tile:hover {
+  transform: translateY(-4px);
+}
+.gallery-tile:hover::before {
+  opacity: 1;
+  transform: translateX(120%);
+}
+.gallery-tile:hover img {
+  transform: scale(1.1) rotate(0.6deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal,
+  .animate-fade-up,
+  .parallax-media,
+  .motion-card,
+  .gallery-tile,
+  .gallery-tile img {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }

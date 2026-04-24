@@ -13,7 +13,9 @@ import { withBase } from '../lib/url';
             src={withBase('/images/120815639-3352525888117737-3703448797567236432-o-780x520.jpeg')}
             alt="Media coverage"
             loading="lazy"
-            class="w-full aspect-[3/2] object-cover border border-rule"
+            class="parallax-media w-full aspect-[3/2] object-cover border border-rule"
+            data-parallax
+            data-parallax-speed="0.06"
           />
           <div class="absolute -bottom-3 -right-3 bg-accent px-5 py-2 font-sans text-xs uppercase tracking-[0.25em] font-bold">
             On Air · On Print · On Feed
@@ -23,7 +25,7 @@ import { withBase } from '../lib/url';
 
       <div class="grid sm:grid-cols-2 gap-4 md:gap-5">
         {stats.map((s, i) => (
-          <div class="reveal card-flat p-6 md:p-8 flex flex-col gap-3" style={`transition-delay:${i * 0.08}s`}>
+          <div class="reveal card-flat motion-card p-6 md:p-8 flex flex-col gap-3" style={`transition-delay:${i * 0.08}s`}>
             <div class="flex items-baseline justify-between gap-2 pb-4 border-b border-rule">
               <span class="counter font-display text-display-md text-accent leading-none" data-target={s.value}>0</span>
               <span class="font-sans text-xs text-muted uppercase tracking-[0.2em]">{String(i + 1).padStart(2, '0')}</span>
