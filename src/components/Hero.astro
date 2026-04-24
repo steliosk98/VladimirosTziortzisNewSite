@@ -1,16 +1,17 @@
 ---
+import { withBase } from '../lib/url';
 ---
 <section class="relative isolate min-h-screen flex items-center overflow-hidden bg-grain">
   <div class="absolute inset-0 z-0">
     <video
       class="absolute inset-0 w-full h-full object-cover"
-      src="/videos/hero.mp4"
+      src={withBase('/videos/hero.mp4')}
       autoplay
       muted
       loop
       playsinline
       preload="auto"
-      poster="/images/background-1-2000x569.jpg"
+      poster={withBase('/images/background-1-2000x569.jpg')}
       aria-hidden="true"
     ></video>
     <div class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(to bottom, rgba(10,10,10,0.4), rgba(10,10,10,0.25) 40%, rgba(10,10,10,0.95));"></div>

@@ -1,6 +1,7 @@
 ---
 import SectionHeading from './SectionHeading.astro';
 import { stats } from '../data/site';
+import { withBase } from '../lib/url';
 ---
 <section id="media" class="py-24 md:py-32">
   <div class="container-site">
@@ -9,7 +10,7 @@ import { stats } from '../data/site';
         <SectionHeading kicker="In The Press" title="Media Exposure" subtitle="Numbers per year." align="left" />
         <div class="reveal relative">
           <img
-            src="/images/120815639-3352525888117737-3703448797567236432-o-780x520.jpeg"
+            src={withBase('/images/120815639-3352525888117737-3703448797567236432-o-780x520.jpeg')}
             alt="Media coverage"
             loading="lazy"
             class="w-full aspect-[3/2] object-cover border border-rule"

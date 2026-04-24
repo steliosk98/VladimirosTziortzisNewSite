@@ -1,5 +1,6 @@
 ---
 import type { Article } from '../data/articles';
+import { withBase } from '../lib/url';
 interface Props {
   article: Article;
   index: number;
@@ -15,7 +16,7 @@ const { article, index } = Astro.props;
   <div class="flex items-center justify-between gap-4 pb-4 border-b border-rule">
     <div class="flex items-center h-10 max-w-[60%]">
       <img
-        src={article.logo}
+        src={withBase(article.logo)}
         alt={article.publication}
         loading="lazy"
         class="max-h-10 w-auto object-contain grayscale opacity-80 group-hover:opacity-100 group-hover:grayscale-0 transition duration-300"

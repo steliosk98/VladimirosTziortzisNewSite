@@ -1,13 +1,16 @@
 ---
 import SectionHeading from './SectionHeading.astro';
 import { gallery } from '../data/site';
+import { withBase } from '../lib/url';
+
+const images = gallery.map(withBase);
 ---
 <section id="gallery" class="py-24 md:py-32 bg-bg-elev/30">
   <div class="container-site">
     <SectionHeading kicker="On Track" title="Gallery" subtitle="A glimpse from paddock to podium." align="center" />
 
     <div class="mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
-      {gallery.map((src, idx) => (
+      {images.map((src, idx) => (
         <button
           type="button"
           class={`group relative overflow-hidden bg-bg ${idx === 0 || idx === 4 ? 'col-span-2 row-span-2' : ''}`}
@@ -44,7 +47,7 @@ import { gallery } from '../data/site';
   </dialog>
 </section>
 
-<script define:vars={{ images: gallery }}>
+<script define:vars={{ images }}>
   const dialog = document.getElementById('gallery-lightbox');
   const img = document.getElementById('lightbox-img');
   const counter = document.getElementById('lightbox-counter');

@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { siteMeta } from '../data/site';
+import { withBase } from '../lib/url';
 
 interface Props {
   title?: string;
@@ -18,7 +19,7 @@ const pageDesc = description ?? siteMeta.description;
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="icon" type="image/png" href={withBase('/favicon.png')} />
 
   <title>{pageTitle}</title>
   <meta name="description" content={pageDesc} />
@@ -27,7 +28,7 @@ const pageDesc = description ?? siteMeta.description;
   <meta property="og:type" content="website" />
   <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={pageDesc} />
-  <meta property="og:image" content="/images/img-4425-1-1065x1386.png" />
+  <meta property="og:image" content={new URL(withBase('/images/img-4425-1-1065x1386.png'), Astro.site ?? Astro.url).toString()} />
   <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -40,7 +41,7 @@ const pageDesc = description ?? siteMeta.description;
 
   <div id="cookie-banner" class="fixed bottom-4 left-4 right-4 md:left-auto md:bottom-6 md:right-6 md:max-w-sm z-40 hidden bg-bg-elev border border-rule p-5">
     <p class="font-sans text-sm text-fg/90 leading-relaxed">
-      This site uses cookies to give you the best experience. Read our <a href="/privacy" class="text-accent hover:text-accent-hot underline">cookie policy</a>.
+      This site uses cookies to give you the best experience. Read our <a href={withBase('/privacy')} class="text-accent hover:text-accent-hot underline">cookie policy</a>.
     </p>
     <button id="cookie-accept" class="mt-4 btn-primary !py-2 !px-5 !text-xs">Agree</button>
   </div>

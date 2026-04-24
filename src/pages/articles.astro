@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import { articles } from '../data/articles';
+import { withBase } from '../lib/url';
 
 const publications = Array.from(new Set(articles.map(a => a.publication))).sort();
 ---
@@ -12,7 +13,7 @@ const publications = Array.from(new Set(articles.map(a => a.publication))).sort(
   <section class="pt-[calc(var(--nav-h)+4rem)] pb-20 md:pt-[calc(var(--nav-h)+7rem)] md:pb-28 relative border-b border-rule overflow-hidden">
     <div class="absolute inset-0 -z-10">
       <img
-        src="/images/background-1-2000x569.jpg"
+        src={withBase('/images/background-1-2000x569.jpg')}
         alt=""
         class="w-full h-full object-cover opacity-20"
       />

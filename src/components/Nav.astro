@@ -1,10 +1,11 @@
 ---
 import { nav, socials } from '../data/site';
+import { withBase } from '../lib/url';
 ---
 <header id="site-nav" class="fixed top-0 left-0 right-0 z-50 border-b border-transparent transition-colors">
   <div class="container-site flex items-center justify-between h-[var(--nav-h)]">
-    <a href="/" class="flex items-center gap-3 group">
-      <img src="/images/vt-logo-168x168.png" alt="VT" width="40" height="40" class="w-10 h-10" />
+    <a href={withBase('/')} class="flex items-center gap-3 group">
+      <img src={withBase('/images/vt-logo-168x168.png')} alt="VT" width="40" height="40" class="w-10 h-10" />
       <span class="hidden sm:flex flex-col leading-none">
         <span class="font-display text-xl tracking-wide group-hover:text-accent transition-colors">Vladimiros Tziortzis</span>
         <span class="font-sans text-[10px] text-muted tracking-[0.2em] uppercase">Racing Driver</span>
@@ -13,7 +14,7 @@ import { nav, socials } from '../data/site';
 
     <nav class="hidden md:flex items-center gap-8">
       {nav.map(item => (
-        <a href={item.href} class="font-sans text-sm font-medium uppercase tracking-widest text-fg/80 hover:text-accent transition-colors">
+        <a href={withBase(item.href)} class="font-sans text-sm font-medium uppercase tracking-widest text-fg/80 hover:text-accent transition-colors">
           {item.label}
         </a>
       ))}
@@ -41,7 +42,7 @@ import { nav, socials } from '../data/site';
   <div id="mobile-menu" class="hidden md:hidden border-t border-rule bg-bg">
     <nav class="container-site flex flex-col py-6 gap-4">
       {nav.map(item => (
-        <a href={item.href} class="font-sans text-base font-medium uppercase tracking-widest text-fg/90 hover:text-accent transition-colors">
+        <a href={withBase(item.href)} class="font-sans text-base font-medium uppercase tracking-widest text-fg/90 hover:text-accent transition-colors">
           {item.label}
         </a>
       ))}

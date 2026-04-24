@@ -1,9 +1,10 @@
 ---
 import { nextRace } from '../data/site';
+import { withBase } from '../lib/url';
 ---
 <section id="next-race" class="relative isolate py-24 md:py-32 border-y border-rule overflow-hidden">
   <img
-    src="/images/background-1-2000x569.jpg"
+    src={withBase('/images/background-1-2000x569.jpg')}
     alt=""
     aria-hidden="true"
     class="absolute inset-0 w-full h-full object-cover z-0"
