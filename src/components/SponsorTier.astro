@@ -18,8 +18,8 @@ const tileClass = size === 'xl'
 
 const gridClass = items.length === 1
   ? 'flex justify-center'
-  : items.length <= 2
-    ? 'grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 max-w-3xl mx-auto'
+  : items.length === 2
+    ? 'flex flex-wrap justify-center gap-4 md:gap-6'
     : items.length <= 4
       ? 'grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5'
       : 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5';
@@ -45,7 +45,7 @@ const gridClass = items.length === 1
             src={withBase(item.logo)}
             alt={item.name}
             loading="lazy"
-            class="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition duration-500"
+            class="max-w-full max-h-full object-contain transition duration-500"
           />
         </div>
         <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-bg to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300">
