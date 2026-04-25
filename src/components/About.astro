@@ -10,8 +10,8 @@ import { bio } from '../data/site';
 
     <div class="mt-16 md:mt-24 grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-10 lg:gap-16 items-start">
       <div class="reveal relative">
-        <div class="absolute -top-4 -left-4 w-24 h-24 border-t-2 border-l-2 border-accent z-0"></div>
-        <div class="absolute -bottom-4 -right-4 w-24 h-24 border-b-2 border-r-2 border-accent z-0"></div>
+        <div class="absolute -top-2 -left-2 md:-top-4 md:-left-4 w-16 h-16 md:w-24 md:h-24 border-t-2 border-l-2 border-accent z-0"></div>
+        <div class="absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 w-16 h-16 md:w-24 md:h-24 border-b-2 border-r-2 border-accent z-0"></div>
         <Image
           src={portrait}
           alt="Vladimiros Tziortzis portrait"
@@ -24,18 +24,18 @@ import { bio } from '../data/site';
         />
       </div>
 
-      <div class="reveal flex flex-col gap-5">
-        <div class="flex items-center gap-6 pb-4 border-b border-rule">
+      <div class="reveal flex flex-col gap-5 min-w-0">
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 pb-4 border-b border-rule">
           <div class="flex items-baseline gap-2">
-            <span class="font-display text-4xl text-accent">1997</span>
+            <span class="font-display text-3xl md:text-4xl text-accent">1997</span>
             <span class="font-sans text-xs text-muted uppercase tracking-widest">Born</span>
           </div>
           <div class="flex items-baseline gap-2">
-            <span class="font-display text-4xl text-accent">8th</span>
+            <span class="font-display text-3xl md:text-4xl text-accent">8th</span>
             <span class="font-sans text-xs text-muted uppercase tracking-widest">EuroNASCAR PRO 2025</span>
           </div>
           <div class="flex items-baseline gap-2">
-            <span class="font-display text-4xl text-accent">#64</span>
+            <span class="font-display text-3xl md:text-4xl text-accent">#64</span>
             <span class="font-sans text-xs text-muted uppercase tracking-widest">Speedhouse</span>
           </div>
         </div>
